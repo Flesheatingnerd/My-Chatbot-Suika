@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     }
 
     // The official Google Gemini 1.5 Flash URL
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
     try {
         const response = await fetch(API_URL, {
