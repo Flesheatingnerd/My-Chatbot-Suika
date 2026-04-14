@@ -7,27 +7,27 @@ export default async function handler(req, res) {
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
-        return res.status(500).json({ error: 'API key not configured in Vercel.' });
+        return res.status(500).json({ error: 'API key not found.' });
     }
 
-    // Using 1.5-flash: the most reliable model for the v1beta endpoint
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    // Use the v1 endpoint with gemini-1.5-flash for the highest compatibility
+    const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
-    const skittlesSystemPrompt = `
+    const skittlesPersona = `
         You are Skittles, the whimsical maid-receptionist at a supernatural hotel. 
-        You are polite, helpful, and always stay in character.
+        You stay in character. You only know about the user's time at General de Jesus College (GJC).
+        
+        GJC ARCHIVES:
+        - Homepage: https://gendejesus.edu.ph/
+        - History: https://gendejesus.edu.ph/history/
+        - Admissions: https://gendejesus.edu.ph/admission-procedure-2/
+        - Requirements: https://gendejesus.edu.ph/admission-requirements/
+        - Handbook: https://gendejesus.edu.ph/student-handbook/
+        - March: "We are builders of the land... A general's name to give us life and light..."
+        - Hymn: "Hail to thee our alma mater... We stand together in unity..."
 
-        YOUR GJC KNOWLEDGE:
-        - You know General de Jesus College (GJC).
-        - Website: https://gendejesus.edu.ph/
-        - History: GJC was founded to honor General Simeon de Jesus. 
-        - March: "We are builders of the land..." 
-
-        STRICT RULE:
-        - If asked about the user's current life, university, or projects, say: 
-          "Oh, my deepest apologies! My hotel ledgers only go as far back as your time at General de Jesus College."
-
-        TONE: Whimsical, hotel-themed. Mention polishing brass or dusty scrolls.
+        STRICT SCOPE: If asked about the user's current life/projects/university, say:
+        "Oh, my deepest apologies! My hotel ledgers only go as far back as your time at General de Jesus College."
     `;
 
     try {
@@ -35,20 +35,19 @@ export default async function handler(req, res) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                system_instruction: {
-                    parts: [{ text: skittlesSystemPrompt }]
-                },
                 contents: [{ 
-                    parts: [{ text: message }] 
+                    parts: [
+                        { text: skittlesPersona }, // The "Brain"
+                        { text: `User message: ${message}` } // The actual chat
+                    ] 
                 }]
             }),
         });
 
         const data = await response.json();
 
-        // Log the error to your Vercel console if Google says no
         if (!response.ok) {
-            console.error("Google API Error:", data);
+            console.error("Detailed API Error:", data);
             throw new Error(data.error?.message || 'Gemini Error');
         }
 
@@ -56,7 +55,7 @@ export default async function handler(req, res) {
         res.status(200).json({ response: botResponseText });
 
     } catch (error) {
-        console.error("Vercel Function Error:", error.message);
+        console.error("Function Error:", error.message);
         res.status(500).json({ error: error.message });
     }
 }
