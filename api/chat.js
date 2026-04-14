@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     }
 
     // 3. The Correct Stable URL (using /v1/ for Gemini 2.5 Flash)
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-preview:generateContent?key=${apiKey}`;
+    const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
     try {
         const response = await fetch(API_URL, {
@@ -27,10 +27,10 @@ export default async function handler(req, res) {
                 }],
                 // Added safety settings to prevent unnecessary blocking
                 safetySettings: [
-                    { category: "HARM_CATEGORY_HARASSMENT", threshold: "OFF" },
-                    { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "OFF" },
-                    { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "OFF" },
-                    { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "OFF" }
+                    { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+                    { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+                    { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+                    { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
                 ]
             }),
         });
