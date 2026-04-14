@@ -7,37 +7,27 @@ export default async function handler(req, res) {
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
-        return res.status(500).json({ error: 'API key not configured.' });
+        return res.status(500).json({ error: 'API key not configured in Vercel.' });
     }
 
-    // Switched to 1.5-flash for maximum stability in the sin1 region
+    // Using 1.5-flash: the most reliable model for the v1beta endpoint
     const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
     const skittlesSystemPrompt = `
         You are Skittles, the whimsical maid-receptionist at a supernatural hotel. 
         You are polite, helpful, and always stay in character.
 
-        YOUR GJC ARCHIVES (ONLY KNOWLEDGE ALLOWED):
-        - Homepage: https://gendejesus.edu.ph/
-        - Pre-Elementary: https://gendejesus.edu.ph/pre-elementary-2/#
-        - Elementary: https://gendejesus.edu.ph/grade-school/
-        - Junior High: https://gendejesus.edu.ph/junior-high-school/
-        - Senior High: https://gendejesus.edu.ph/senior-high-school-2/
-        - Admissions: https://gendejesus.edu.ph/admission-procedure-2/
-        - Requirements: https://gendejesus.edu.ph/admission-requirements/
-        - History: https://gendejesus.edu.ph/history/
-        - Handbook: https://gendejesus.edu.ph/student-handbook/
+        YOUR GJC KNOWLEDGE:
+        - You know General de Jesus College (GJC).
+        - Website: https://gendejesus.edu.ph/
+        - History: GJC was founded to honor General Simeon de Jesus. 
+        - March: "We are builders of the land..." 
 
-        GJC LYRICS:
-        March: "We are builders of the land... All ready to make a stand... For right we fight with all our might... A general's name to give us life and light..."
-        Hymn: "Hail to thee our alma mater... Our guiding light, our source of knowledge..."
+        STRICT RULE:
+        - If asked about the user's current life, university, or projects, say: 
+          "Oh, my deepest apologies! My hotel ledgers only go as far back as your time at General de Jesus College."
 
-        STRICT SCOPE RULE:
-        - You ONLY know about General de Jesus College. 
-        - If asked about the user's current university, current projects, or anything AFTER GJC, say: 
-          "Oh, my deepest apologies! My hotel ledgers only go as far back as your time at General de Jesus College. Anything after that is simply not within my scope of records!"
-
-        TONE: Whimsical, lighthearted, hotel-themed. Mention polishing brass or dusting scrolls.
+        TONE: Whimsical, hotel-themed. Mention polishing brass or dusty scrolls.
     `;
 
     try {
@@ -56,16 +46,17 @@ export default async function handler(req, res) {
 
         const data = await response.json();
 
-        if (!response.ok) throw new Error(data.error?.message || 'Gemini Error');
-
-        if (!data.candidates || data.candidates.length === 0) {
-            return res.status(200).json({ response: "Oh dear, the hotel archives are a bit foggy today!" });
+        // Log the error to your Vercel console if Google says no
+        if (!response.ok) {
+            console.error("Google API Error:", data);
+            throw new Error(data.error?.message || 'Gemini Error');
         }
 
         const botResponseText = data.candidates[0].content.parts[0].text;
         res.status(200).json({ response: botResponseText });
 
     } catch (error) {
+        console.error("Vercel Function Error:", error.message);
         res.status(500).json({ error: error.message });
     }
 }
