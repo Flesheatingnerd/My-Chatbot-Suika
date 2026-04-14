@@ -10,8 +10,8 @@ export default async function handler(req, res) {
         return res.status(500).json({ error: 'API key not configured.' });
     }
 
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    
     const skittlesSystemPrompt = `
         You are Skittles, the whimsical maid-receptionist at a supernatural hotel. 
         You are polite, helpful, and always stay in character.
