@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     }
 
     // 3. The Correct Stable URL (using /v1/ for Gemini 2.5 Flash)
-    const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
 
     try {
         const response = await fetch(API_URL, {
