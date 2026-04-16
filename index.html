@@ -3,20 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Cool Chatbot</title>
+    <title>SCIPNET: SKITTLES-TERMINAL</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="chat-container">
-        <h1>Welcome! Ask me anything.</h1>
-        <div id="chat-messages" class="chat-messages">
+    <div class="scanlines"></div>
+    <div class="terminal-container">
+        <header class="terminal-header">
+            <div class="system-info">
+                [ SYSTEM: SKITTLES-v3.1 ]<br>
+                [ STATUS: ENCRYPTED CONNECTION ]<br>
+                [ LOCATION: GJC ARCHIVES ]
             </div>
-        <form id="chat-form">
-            <input type="text" id="user-input" placeholder="Type your message..." required>
-            <button type="submit">Send</button>
-        </form>
+        </header>
+
+        <div id="chat-messages" class="chat-content">
+            <div class="message bot">>> HOLA~! SYSTEM INITIALIZED. WELCOME BACK, GENERAL.</div>
+        </div>
+
+        <div class="input-line">
+            <span class="prompt">GJC:\></span>
+            <form id="chat-form">
+                <input type="text" id="user-input" placeholder="..." autocomplete="off" autofocus required>
+            </form>
+        </div>
     </div>
 
-    </body>
     <script src="chatbot.js"></script>
+</body>
 </html>

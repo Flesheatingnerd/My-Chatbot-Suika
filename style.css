@@ -1,73 +1,107 @@
+/* Terminal Colors */
+:root {
+    --terminal-green: #15ff00;
+    --terminal-bg: #0a0a0a;
+    --glow: 0 0 10px rgba(21, 255, 0, 0.7);
+}
+
 body {
-    font-family: sans-serif;
+    background-color: var(--terminal-bg);
+    color: var(--terminal-green);
+    font-family: 'Fira Code', monospace;
+    margin: 0;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background-color: #f0f2f5;
-    margin: 0;
+    overflow: hidden;
+    text-transform: uppercase; /* Matches the terminal vibe */
 }
 
-.chat-container {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 500px;
+/* CRT Scanline Effect */
+.scanlines {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+        rgba(0, 0, 0, 0.25) 50%
+    ), linear-gradient(
+        90deg, 
+        rgba(255, 0, 0, 0.06), 
+        rgba(0, 255, 0, 0.02), 
+        rgba(0, 0, 255, 0.06)
+    );
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+    z-index: 10;
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
-}
-
-.chat-messages {
-    height: 300px;
-    overflow-y: scroll;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 10px;
-    margin-bottom: 1rem;
-    background-color: #fafafa;
-}
-
-.message {
-    margin-bottom: 10px;
-    padding: 8px 12px;
-    border-radius: 4px;
-    max-width: 80%;
-}
-
-.user-message {
-    background-color: #e2f3f5;
-    align-self: flex-end;
-    margin-left: auto;
-}
-
-.bot-message {
-    background-color: #d1e7dd;
-    align-self: flex-start;
-}
-
-#chat-form {
+.terminal-container {
+    width: 90vw;
+    max-width: 800px;
+    height: 85vh;
     display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 2px solid var(--terminal-green);
+    box-shadow: inset var(--glow), var(--glow);
+}
+
+.terminal-header {
+    margin-bottom: 20px;
+    border-bottom: 1px dashed var(--terminal-green);
+    padding-bottom: 10px;
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+/* Chat Messages */
+.chat-content {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
     gap: 10px;
 }
 
-#user-input {
-    flex-grow: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+.message {
+    line-height: 1.5;
+    text-shadow: var(--glow);
 }
 
-button {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
+.bot { color: var(--terminal-green); }
+.user { color: #fff; } /* User text in white for contrast */
+
+/* Input Area */
+.input-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.prompt {
+    font-weight: bold;
+    text-shadow: var(--glow);
+}
+
+#chat-form { flex: 1; }
+
+#user-input {
+    width: 100%;
+    background: transparent;
     border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    color: var(--terminal-green);
+    font-family: inherit;
+    font-size: 1rem;
+    outline: none;
+    caret-color: var(--terminal-green); /* The blinking cursor color */
+}
+
+/* Custom Scrollbar for the terminal */
+.chat-content::-webkit-scrollbar {
+    width: 5px;
+}
+.chat-content::-webkit-scrollbar-thumb {
+    background: var(--terminal-green);
 }
