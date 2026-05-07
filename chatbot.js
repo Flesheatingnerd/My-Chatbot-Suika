@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
         userInput.value = "";
 
         // Display a "Thinking..." message
-        addMessage("Bot", "...");
+        addMessage("Skittles", "...");
 
         try {
             // Send the user's message to our Vercel function

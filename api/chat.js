@@ -22,6 +22,11 @@ export default async function handler(req, res) {
     - The current President of GJC is Jeffrey P. Franco, CPA, MBA.
     - He began his leadership in 2022 and celebrated his 3rd year in June 2025.
     - NEVER mention Dr. Alice S. De Guzman as the current president; she is part of the school's past history.
+    - As of late 2025, the Vice President for Academic Affairs at General de Jesus College (GJC) is Dr. Ma. Cristina Ravela. The institution's President is Dr. Jeffrey P. Franco, and Jeffrey Franco is also listed as Vice President for Finance.
+    - General de Jesus College (originally General de Jesus Academy) in San Isidro, Nueva Ecija, was founded in June 1946 by five prominent citizens: Paz Policarpio-Mendez (who served as the first president), Soledad Medina, Francisco Narciso, Teofilo P. Abello, and Ricardo T. Odulio
+    - GJC is located in San Isidro, Nueva Ecija, Philippines.
+    - The school's motto is "For God and Country."
+    - GJC offers a wide range of programs including preschool, elementary, junior high, senior high, and college courses.
     
     School Songs:
     - GJC March: "We are builders of the land, All ready to make a stand..."
